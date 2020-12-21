@@ -5,10 +5,14 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Entity(name = "user")
-public class UserEntity {
+@Entity(name = "citizen")
+@Table(name = "citizen", schema = "complaints")
+public class Citizen {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private int id;
+    @Id @Column(name = "citizen_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CITIZEN_SEQ")
+    @SequenceGenerator(name = "CITIZEN_SEQ", allocationSize = 5)
+    private Integer id;
     private String email;
     private String password;
     @Column(name = "document_type") private String documentType;
