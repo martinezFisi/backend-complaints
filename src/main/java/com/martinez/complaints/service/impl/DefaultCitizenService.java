@@ -14,9 +14,9 @@ public class DefaultCitizenService implements CitizenService {
     private final CitizenRepository citizenRepository;
     private final CitizenMapper citizenMapper;
 
-    public DefaultCitizenService(CitizenRepository citizenRepository) {
+    public DefaultCitizenService(CitizenRepository citizenRepository, CitizenMapper citizenMapper) {
         this.citizenRepository = citizenRepository;
-        citizenMapper = CitizenMapper.INSTANCE;
+        this.citizenMapper = citizenMapper;
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.martinez.complaints.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
+@Builder
 @Data
 @Entity(name = "complaint")
+@Table(name = "complaint", schema = "complaints")
 public class Complaint {
 
     @Id @Column(name = "complaint_id")
@@ -17,6 +20,8 @@ public class Complaint {
     private String longitude;
     @Column(name = "complaint_type") private String complaintType;
     private String commentary;
-    @Column(name = "citizen_id") private int citizenId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "citizen_id")
+    private Citizen citizen;
 
 }
