@@ -1,9 +1,11 @@
 package com.martinez.complaints.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
+@Builder
 @Data
 @Entity(name = "citizen")
 @Table(name = "citizen", schema = "complaints")
@@ -12,7 +14,7 @@ public class Citizen {
     @Id @Column(name = "citizen_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CITIZEN_SEQ")
     @SequenceGenerator(name = "CITIZEN_SEQ", allocationSize = 5)
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
     @Column(name = "document_type") private String documentType;

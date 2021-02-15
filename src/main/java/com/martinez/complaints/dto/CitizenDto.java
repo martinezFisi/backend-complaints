@@ -1,11 +1,13 @@
 package com.martinez.complaints.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class CitizenDto {
 
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
     private String documentType;

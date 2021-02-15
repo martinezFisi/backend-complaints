@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/citizen")
 public class CitizenController {
 
     private final CitizenService citizenService;
