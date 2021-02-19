@@ -12,6 +12,7 @@ public class ComplaintDto {
     private String address;
     private String latitude;
     private String longitude;
+    private String complaintType;
     private String commentary;
     @JsonProperty(value = "citizen") private CitizenDto citizenDto;
 

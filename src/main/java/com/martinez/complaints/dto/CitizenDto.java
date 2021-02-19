@@ -14,6 +14,6 @@ public class CitizenDto {
     private String documentNumber;
     private String firstName;
     private String lastName;
-    private int age;
+    private Integer age;
 
 }
