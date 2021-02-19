@@ -21,7 +21,7 @@ public class Citizen {
     @Column(name = "document_number") private String documentNumber;
     @Column(name = "first_name") private String firstName;
     @Column(name = "last_name") private String lastName;
-    private int age;
+    private Integer age;
 
 
 }
