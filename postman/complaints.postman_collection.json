@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "b3cede17-0778-4e10-bc7a-6db0c86ac5d7",
+		"name": "complaints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Citizen",
+			"item": [
+				{
+					"name": "citizen-save",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"const status = pm.response.code;\r",
+									"const jsonReq = JSON.parse(pm.request.body.raw);\r",
+									"const jsonRes = pm.response.json();\r",
+									"\r",
+									"pm.test('Http Status Code must be 200', function(){\r",
+									"    pm.expect(status).to.eq(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Citizen Id must not be undefined', function(){\r",
+									"    pm.expect(jsonRes.id).is.not.undefined;\r",
+									"});\r",
+									"\r",
+									"pm.test('Citizen Response Properties must match with Citizen Request Properties ', function(){\r",
+									"    pm.expect(jsonRes.email).is.eq(jsonReq.email);\r",
+									"    pm.expect(jsonRes.password).is.eq(jsonReq.password);\r",
+									"    pm.expect(jsonRes.documentType).is.eq(jsonReq.documentType);\r",
+									"    pm.expect(jsonRes.documentNumber).is.eq(jsonReq.documentNumber);\r",
+									"    pm.expect(jsonRes.firstName).is.eq(jsonReq.firstName);\r",
+									"    pm.expect(jsonRes.lastName).is.eq(jsonReq.lastName);\r",
+									"    pm.expect(jsonRes.age).is.eql(jsonReq.age);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"en duro\",\n\t\"password\":\"123\",\n\t\"documentType\":\"T\",\n\t\"documentNumber\":\"777\",\n\t\"firstName\":\"antony\",\n\t\"lastName\":\"martinez\",\n\t\"age\":36\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8282/complaints/citizen/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8282",
+							"path": [
+								"complaints",
+								"citizen",
+								"save"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "complaint-save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\": \"direccion test\",\n    \"latitude\": \"latitude test\",\n    \"longitude\": \"longitude test\",\n    \"complaintType\": \"type test\",\n    \"commentary\": \"commentary test\",\n    \"citizen\":{\n        \"id\": \"37\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8282/complaints/complaint/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"complaints",
+						"complaint",
+						"save"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
