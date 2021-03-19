@@ -23,9 +23,9 @@ public class DefaultCitizenService implements CitizenService {
     public CitizenDto save(CitizenDto citizenDto) {
         log.info(citizenDto.toString());
         var citizen = citizenMapper.citizenDtoToCitizen(citizenDto);
-        log.info(citizen.toString());
 
         citizen = citizenRepository.save(citizen);
+        log.info(citizen.toString());
 
         return citizenMapper.citizenToCitizenDto(citizen);
     }
