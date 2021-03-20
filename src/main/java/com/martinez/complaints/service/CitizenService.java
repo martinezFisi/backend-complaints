@@ -4,5 +4,7 @@ import com.martinez.complaints.dto.CitizenDto;
 
 public interface CitizenService {
 
-    CitizenDto save(CitizenDto citizenDto);
+    CitizenDto create(CitizenDto citizenDto);
+
+    CitizenDto findById(Long id);
 }
