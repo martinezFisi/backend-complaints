@@ -1,12 +1,16 @@
 package com.martinez.complaints.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "citizen")
 @Table(name = "citizen", schema = "complaints")
 public class Citizen {
