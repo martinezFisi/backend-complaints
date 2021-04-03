@@ -7,7 +7,7 @@
 			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5p] [%t] (%F:%L) [%c{1}.%M] %m%n" />
 		</Console>
 
-		<RollingFile name="rollingFile"
+		<RollingFile name="RollingFile"
 					 fileName="D:/Projects/complaints-api.log"
 					 filePattern="D:/Projects/complaints-api_%d{yyyy-MM-dd}.log">
 			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5p] [%t] (%F:%L) [%c{1}.%M] %m%n" />
@@ -18,14 +18,18 @@
 	</Appenders>
 
 	<loggers>
+		<root>
+			<AppenderRef ref="Console" level="INFO"/>
+			<AppenderRef ref="RollingFile" level="ERROR"/>
+		</root>
         <logger name="com.martinez.complaints" level="TRACE">
-            <AppenderRef ref="rollingFile"/>
+            <AppenderRef ref="RollingFile"/>
         </logger>
 		<logger name="org.hibernate.SQL" level="DEBUG">
-			<AppenderRef ref="rollingFile"/>
+			<AppenderRef ref="RollingFile"/>
 		</logger>
 		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE">
-			<AppenderRef ref="rollingFile"/>
+			<AppenderRef ref="RollingFile"/>
 		</logger>
 	</loggers>
 </Configuration>
