@@ -4,11 +4,15 @@ import com.martinez.complaints.dto.CitizenDto;
 import com.martinez.complaints.exception.NotFoundException;
 import com.martinez.complaints.mapper.CitizenMapper;
 import com.martinez.complaints.repository.CitizenRepository;
+import com.martinez.complaints.repository.searchcriteria.CitizenSpecificationBuilder;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -44,6 +48,28 @@ public class DefaultCitizenService implements CitizenService {
         log.info("Citizen found: {}", citizenDto.toString());
 
         return citizenDto;
+    }
+
+    @Override
+    public List<CitizenDto> filterBy(String searchCriterias) {
+        log.info("Filter citizens by [{}]", searchCriterias);
+        var citizenSpecificationBuilder = new CitizenSpecificationBuilder();
+
+        var pattern = Pattern.compile("(\\w+)(=|<|>|<=|>=)(\\w+)");
+        var matcher = pattern.matcher(searchCriterias);
+
+        while (matcher.find()) {
+            citizenSpecificationBuilder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+
+        var citizenSpecification = citizenSpecificationBuilder.build();
+        var citizensDto = citizenRepository.findAll(citizenSpecification)
+                                           .stream()
+                                           .map(citizenMapper::citizenToCitizenDto)
+                                           .collect(toList());
+
+        log.info("Citizens found: {}", citizensDto);
+        return citizensDto;
     }
 
 }
