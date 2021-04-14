@@ -47,9 +47,9 @@ public class CitizenController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CitizenDto>> filterBy(@RequestParam(value = "searchCriterias") String searchCriterias){
+    public ResponseEntity<List<CitizenDto>> filterBySearchCriterias(@RequestParam(value = "searchCriterias") String searchCriterias){
 
-        var citizensDto = citizenService.filterBy(searchCriterias);
+        var citizensDto = citizenService.filterBySearchCriterias(searchCriterias);
 
         return ResponseEntity.ok(citizensDto);
     }
