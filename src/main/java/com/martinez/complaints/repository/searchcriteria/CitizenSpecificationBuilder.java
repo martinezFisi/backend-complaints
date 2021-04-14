@@ -1,7 +1,7 @@
 package com.martinez.complaints.repository.searchcriteria;
 
 import com.martinez.complaints.entity.Citizen;
-import com.martinez.complaints.exception.EmptyException;
+import com.martinez.complaints.exception.EmptySearchCriteriaListException;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
@@ -23,8 +23,9 @@ public class CitizenSpecificationBuilder {
     public Specification<Citizen> build() {
         return searchCriterias.stream()
                               .map(CitizenSpecification::new)
-                              .reduce((sp1, sp2) -> (CitizenSpecification) Specification.where(sp1).and(sp2))
-                              .orElseThrow(() -> new EmptyException("List of search criterias is empty!"));
+                              .map(citizenSpecification -> (Specification<Citizen>) citizenSpecification)
+                              .reduce((sp1, sp2) -> Specification.where(sp1).and(sp2))
+                              .orElseThrow(() -> new EmptySearchCriteriaListException("List of search criterias is empty!"));
 
     }
 

@@ -1,6 +1,7 @@
 package com.martinez.complaints.controller.handler;
 
-import com.martinez.complaints.exception.NotFoundException;
+import com.martinez.complaints.exception.EmptySearchCriteriaListException;
+import com.martinez.complaints.exception.WrongSearchCriteriaException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -37,9 +38,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                              .body(Map.of("errors", errors));
     }
 
-    @ExceptionHandler({NotFoundException.class})
-    protected ResponseEntity<Object> handleNotFoundException(NotFoundException e) {
-        log.error(e.getMessage());
+    @ExceptionHandler({
+            WrongSearchCriteriaException.class,
+            EmptySearchCriteriaListException.class
+    })
+    protected ResponseEntity<Object> handleComplaintsApplicationException(Exception e) {
+        log.error(e.getMessage(), e);
 
         return ResponseEntity.badRequest()
                              .body(Map.of("errors", List.of(e.getMessage())));

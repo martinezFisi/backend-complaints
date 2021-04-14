@@ -2,7 +2,6 @@ package com.martinez.complaints.repository.searchcriteria;
 
 import com.martinez.complaints.entity.Citizen;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

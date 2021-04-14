@@ -10,5 +10,5 @@ public interface CitizenService {
 
     CitizenDto findById(Long id);
 
-    List<CitizenDto> filterBy(String searchCriterias);
+    List<CitizenDto> filterBySearchCriterias(String searchCriterias);
 }

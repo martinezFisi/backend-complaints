@@ -1,14 +1,18 @@
 package com.martinez.complaints.service.impl;
 
 import com.martinez.complaints.dto.CitizenDto;
-import com.martinez.complaints.exception.NotFoundException;
+import com.martinez.complaints.entity.Citizen;
+import com.martinez.complaints.exception.WrongSearchCriteriaException;
 import com.martinez.complaints.mapper.CitizenMapper;
 import com.martinez.complaints.repository.CitizenRepository;
 import com.martinez.complaints.repository.searchcriteria.CitizenSpecificationBuilder;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -42,7 +46,7 @@ public class DefaultCitizenService implements CitizenService {
         log.info("Finding citizen by id [{}]...", id);
 
         var citizen = citizenRepository.findById(id)
-                                       .orElseThrow(() -> new NotFoundException("Citizen with id [" + id + "] not found"));
+                                       .orElseThrow(() -> new EntityNotFoundException("Citizen with id [" + id + "] not found"));
 
         var citizenDto = citizenMapper.citizenToCitizenDto(citizen);
         log.info("Citizen found: {}", citizenDto.toString());
@@ -51,7 +55,7 @@ public class DefaultCitizenService implements CitizenService {
     }
 
     @Override
-    public List<CitizenDto> filterBy(String searchCriterias) {
+    public List<CitizenDto> filterBySearchCriterias(String searchCriterias) {
         log.info("Filter citizens by [{}]", searchCriterias);
         var citizenSpecificationBuilder = new CitizenSpecificationBuilder();
 
@@ -63,13 +67,19 @@ public class DefaultCitizenService implements CitizenService {
         }
 
         var citizenSpecification = citizenSpecificationBuilder.build();
-        var citizensDto = citizenRepository.findAll(citizenSpecification)
-                                           .stream()
-                                           .map(citizenMapper::citizenToCitizenDto)
-                                           .collect(toList());
+        var citizensDto = tryFindAllCitizens(citizenSpecification).stream()
+                                                                  .map(citizenMapper::citizenToCitizenDto)
+                                                                  .collect(toList());
 
         log.info("Citizens found: {}", citizensDto);
         return citizensDto;
     }
 
+    private List<Citizen> tryFindAllCitizens(Specification<Citizen> citizenSpecification) {
+        try {
+            return citizenRepository.findAll(citizenSpecification);
+        } catch (InvalidDataAccessApiUsageException e) {
+            throw new WrongSearchCriteriaException("Wrong search criteria found");
+        }
+    }
 }
