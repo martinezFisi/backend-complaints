@@ -6,6 +6,7 @@ import com.martinez.complaints.exception.WrongSearchCriteriaException;
 import com.martinez.complaints.mapper.CitizenMapper;
 import com.martinez.complaints.repository.CitizenRepository;
 import com.martinez.complaints.repository.searchcriteria.CitizenSpecificationBuilder;
+import com.martinez.complaints.repository.searchcriteria.SearchCriteria;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -16,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.martinez.complaints.repository.searchcriteria.SearchCriteria.AND;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
@@ -59,11 +61,17 @@ public class DefaultCitizenService implements CitizenService {
         log.info("Filter citizens by [{}]", searchCriterias);
         var citizenSpecificationBuilder = new CitizenSpecificationBuilder();
 
-        var pattern = Pattern.compile("(\\w+)(=|<|>|<=|>=)(\\w+)");
-        var matcher = pattern.matcher(searchCriterias);
+        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=)(\\w+)");
+        var matcher = pattern.matcher(AND.concat(searchCriterias));
 
         while (matcher.find()) {
-            citizenSpecificationBuilder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+            var searchCriteria = SearchCriteria.builder()
+                                               .connector(matcher.group(1))
+                                               .key(matcher.group(2))
+                                               .operation(matcher.group(3))
+                                               .value(matcher.group(4))
+                                               .build();
+            citizenSpecificationBuilder.with(searchCriteria);
         }
 
         var citizenSpecification = citizenSpecificationBuilder.build();
