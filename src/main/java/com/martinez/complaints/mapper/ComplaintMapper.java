@@ -1,6 +1,7 @@
 package com.martinez.complaints.mapper;
 
 import com.martinez.complaints.dto.ComplaintDto;
+import com.martinez.complaints.entity.Citizen;
 import com.martinez.complaints.entity.Complaint;
 import org.springframework.stereotype.Component;
 
@@ -27,13 +28,12 @@ public class ComplaintMapper {
 
     public Complaint complaintDtoToComplaint(ComplaintDto complaintDto) {
         return Complaint.builder()
-                .id(complaintDto.getId())
                 .address(complaintDto.getAddress())
                 .latitude(complaintDto.getLatitude())
                 .longitude(complaintDto.getLongitude())
                 .complaintType(complaintDto.getComplaintType())
                 .commentary(complaintDto.getCommentary())
-                .citizen(citizenMapper.citizenDtoToCitizen(complaintDto.getCitizenDto()))
+                .citizen(Citizen.builder().id(complaintDto.getCitizenId()).build())
                 .build();
     }
 }

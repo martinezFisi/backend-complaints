@@ -4,5 +4,7 @@ import com.martinez.complaints.dto.ComplaintDto;
 
 public interface ComplaintService {
 
-    ComplaintDto save(ComplaintDto complaintDto);
+    ComplaintDto create(ComplaintDto complaintDto);
+
+    ComplaintDto findById(Long id);
 }

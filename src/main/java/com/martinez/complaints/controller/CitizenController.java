@@ -31,11 +31,11 @@ public class CitizenController {
     }
 
     @PostMapping
-    public ResponseEntity<CitizenDto> createCitizen(HttpServletRequest request, @Valid @RequestBody CitizenDto citizenDto){
-        var citizen = citizenService.create(citizenDto);
+    public ResponseEntity<CitizenDto> createCitizen(HttpServletRequest request, @Valid @RequestBody CitizenDto reqCitizenDto){
+        var resCitizenDto = citizenService.create(reqCitizenDto);
 
-        var uri = URI.create(request.getRequestURI() + "/" + citizen.getId());
-        return ResponseEntity.created(uri).body(citizen);
+        var uri = URI.create(request.getRequestURI() + "/" + resCitizenDto.getId());
+        return ResponseEntity.created(uri).body(resCitizenDto);
     }
 
     @GetMapping(value = "{citizenId}")
