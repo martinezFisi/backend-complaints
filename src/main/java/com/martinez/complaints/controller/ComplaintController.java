@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -44,12 +46,12 @@ public class ComplaintController {
         return ResponseEntity.ok(complaintDto);
     }
 
-    /*@GetMapping
-    public ResponseEntity<List<CitizenDto>> filterBySearchCriterias(@RequestParam(value = "searchCriterias") String searchCriterias){
+    @GetMapping
+    public ResponseEntity<List<ComplaintDto>> filterBySearchCriterias(@RequestParam(value = "searchCriterias") String searchCriterias){
 
-        var citizensDto = complaintService.filterBySearchCriterias(searchCriterias);
+        var complaintsDto = complaintService.filterBySearchCriterias(searchCriterias);
 
-        return ResponseEntity.ok(citizensDto);
-    }*/
+        return ResponseEntity.ok(complaintsDto);
+    }
 
 }
