@@ -1,6 +1,5 @@
 package com.martinez.complaints.repository.searchcriteria;
 
-import com.martinez.complaints.entity.Citizen;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,12 +9,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 @Data
-public class CitizenSpecification implements Specification<Citizen> {
+public class DefaultSpecification<T> implements Specification<T> {
 
     private final SearchCriteria searchCriteria;
 
     @Override
-    public Predicate toPredicate(Root<Citizen> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 
         var key = searchCriteria.getKey();
         var operation = searchCriteria.getOperation();

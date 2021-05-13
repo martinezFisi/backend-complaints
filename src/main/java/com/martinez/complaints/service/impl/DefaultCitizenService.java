@@ -5,7 +5,7 @@ import com.martinez.complaints.entity.Citizen;
 import com.martinez.complaints.exception.WrongSearchCriteriaException;
 import com.martinez.complaints.mapper.CitizenMapper;
 import com.martinez.complaints.repository.CitizenRepository;
-import com.martinez.complaints.repository.searchcriteria.CitizenSpecificationBuilder;
+import com.martinez.complaints.repository.searchcriteria.SpecificationBuilder;
 import com.martinez.complaints.repository.searchcriteria.SearchCriteria;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
@@ -59,9 +59,9 @@ public class DefaultCitizenService implements CitizenService {
     @Override
     public List<CitizenDto> filterBySearchCriterias(String searchCriterias) {
         log.info("Filter citizens by [{}]", searchCriterias);
-        var citizenSpecificationBuilder = new CitizenSpecificationBuilder();
+        var specificationBuilder = new SpecificationBuilder<Citizen>();
 
-        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=)(\\w+)");
+        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)(\\w+)");
         var matcher = pattern.matcher(AND.concat(searchCriterias));
 
         while (matcher.find()) {
@@ -71,10 +71,10 @@ public class DefaultCitizenService implements CitizenService {
                                                .operation(matcher.group(3))
                                                .value(matcher.group(4))
                                                .build();
-            citizenSpecificationBuilder.with(searchCriteria);
+            specificationBuilder.with(searchCriteria);
         }
 
-        var citizenSpecification = citizenSpecificationBuilder.build();
+        var citizenSpecification = specificationBuilder.build();
         var citizensDto = tryFindAllCitizens(citizenSpecification).stream()
                                                                   .map(citizenMapper::citizenToCitizenDto)
                                                                   .collect(toList());
