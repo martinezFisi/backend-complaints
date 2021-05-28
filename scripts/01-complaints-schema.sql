@@ -1,3 +1,5 @@
+SET search_path TO complaints_schema;
+
 CREATE TABLE parameter
 (
     parameter_id BIGINT      NOT NULL,
