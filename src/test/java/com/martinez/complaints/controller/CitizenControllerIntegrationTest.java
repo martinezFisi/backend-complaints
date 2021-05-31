@@ -15,7 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-class CitizenControllerIntegrationTest {
+class CitizenControllerIT {
 
     @Container
     public static final JdbcDatabaseContainer postgreSQLContainer = (JdbcDatabaseContainer) new PostgreSQLContainer("postgres:9.4")
