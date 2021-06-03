@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CitizenService {
 
-    CitizenDto create(CitizenDto citizenDto);
+    long create(CitizenDto citizenDto);
 
     CitizenDto findById(Long id);
 

@@ -33,14 +33,14 @@ public class DefaultCitizenService implements CitizenService {
     }
 
     @Override
-    public CitizenDto create(CitizenDto citizenDto) {
+    public long create(CitizenDto citizenDto) {
         log.info(citizenDto.toString());
         var citizen = citizenMapper.citizenDtoToCitizen(citizenDto);
 
         citizen = citizenRepository.save(citizen);
         log.info(citizen.toString());
 
-        return citizenMapper.citizenToCitizenDto(citizen);
+        return citizen.getId();
     }
 
     @Override
