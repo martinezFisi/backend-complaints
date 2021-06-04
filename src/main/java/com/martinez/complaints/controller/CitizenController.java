@@ -31,7 +31,7 @@ public class CitizenController {
     }
 
     @PostMapping
-    public ResponseEntity<CitizenDto> createCitizen(HttpServletRequest request, @Valid @RequestBody CitizenDto reqCitizenDto){
+    public ResponseEntity<Void> createCitizen(HttpServletRequest request, @Valid @RequestBody CitizenDto reqCitizenDto){
         var citizenId = citizenService.create(reqCitizenDto);
 
         var uri = URI.create(request.getRequestURI() + "/" + citizenId);

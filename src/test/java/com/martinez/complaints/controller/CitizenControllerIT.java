@@ -27,24 +27,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-class CitizenControllerIT {
-
-    @Container
-    public static final JdbcDatabaseContainer postgreSQLContainer = new PostgreSQLContainer("postgres:9.4")
-            .withInitScript("scripts/complaints-scripts-all-in-one.sql");
+class CitizenControllerIT extends AbstractIntegrationTest {
 
     public static final String CONTEXT = "/complaints";
     public static final String CITIZENS_URI = "/api/v1/citizens";
 
     @Autowired private CitizenService citizenService;
     @Autowired private TestRestTemplate testRestTemplate;
-
-    @DynamicPropertySource
-    static void postgresqlProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-    }
 
     @DisplayName("""
             Given a valid CitizenDto request \
@@ -60,7 +49,7 @@ class CitizenControllerIT {
                 .accept(APPLICATION_JSON)
                 .body(reqCitizenDto);
 
-        var responseEntity = testRestTemplate.exchange(requestEntity, CitizenDto.class);
+        var responseEntity = testRestTemplate.exchange(requestEntity, Void.class);
 
         var expectedCitizenId = citizenService.filterBySearchCriterias("documentNumber=7777777").get(0).getId();
         var expectedLocation = URI.create(CONTEXT + CITIZENS_URI + "/" + expectedCitizenId);
