@@ -3,6 +3,7 @@ package com.martinez.complaints.controller;
 import com.martinez.complaints.dto.CitizenDto;
 import com.martinez.complaints.service.CitizenService;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.net.URI;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -31,14 +29,16 @@ class CitizenControllerIT extends AbstractIntegrationTest {
 
     public static final String CONTEXT = "/complaints";
     public static final String CITIZENS_URI = "/api/v1/citizens";
+    public static final String DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED = "Key (email)=(citizen1990@gmail.com) already exists";
 
     @Autowired private CitizenService citizenService;
     @Autowired private TestRestTemplate testRestTemplate;
 
+    @Order(1)
     @DisplayName("""
             Given a valid CitizenDto request \
             When invoke a POST Method on URI "/api/v1/citizens" \
-            Then controller response with HttpStatus=CREATED and a Location Header with the CitizenId generated
+            Then controller response with HttpStatus=CREATED(201) and a Location Header with the CitizenId generated
             """)
     @MethodSource("reqCitizenDto")
     @ParameterizedTest
@@ -55,7 +55,30 @@ class CitizenControllerIT extends AbstractIntegrationTest {
         var expectedLocation = URI.create(CONTEXT + CITIZENS_URI + "/" + expectedCitizenId);
 
         assertThat("HttpStatus must be CREATED(201)", responseEntity.getStatusCode(), equalTo(HttpStatus.CREATED));
-        assertThat("Location URI must be " + expectedLocation, responseEntity.getHeaders().getLocation(), equalTo(expectedLocation));
+        assertThat("Location URI must be " + expectedLocation, responseEntity.getHeaders()
+                                                                             .getLocation(), equalTo(expectedLocation));
+    }
+
+    @Order(2)
+    @DisplayName("""
+              Given a CitizenDto request with an email already registered \
+              When invoke a POST Method on URI "/api/v1/citizens" \
+              Then controller response with HttpStatus=BAD_REQUEST(400) and an error message "Key (email)=(citizen1990@gmail.com) already exists"
+            """)
+    @MethodSource("reqCitizenDto")
+    @ParameterizedTest
+    void testEmailAlreadyRegistered(CitizenDto reqCitizenDto) {
+        var requestEntity = RequestEntity
+                .post(URI.create(CITIZENS_URI))
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(reqCitizenDto);
+
+        var responseEntity = testRestTemplate.exchange(requestEntity, Map.class);
+
+        assertThat("HttpStatus must be BAD_REQUEST(400)", responseEntity.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
+        assertTrue(responseEntity.getBody().get("errors").toString().contains(DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED),
+                "Errors array must contain the message: " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED);
     }
 
     private static Stream<CitizenDto> reqCitizenDto() {
