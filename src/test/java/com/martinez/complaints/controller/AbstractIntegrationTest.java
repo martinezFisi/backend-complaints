@@ -1,11 +1,14 @@
 package com.martinez.complaints.controller;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 public abstract class AbstractIntegrationTest {
 
     @Container
