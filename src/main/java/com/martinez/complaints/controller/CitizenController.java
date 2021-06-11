@@ -3,6 +3,7 @@ package com.martinez.complaints.controller;
 import com.martinez.complaints.dto.CitizenDto;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/citizens", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/citizens", produces = APPLICATION_JSON_VALUE)
 public class CitizenController {
 
     private final CitizenService citizenService;
@@ -30,7 +31,7 @@ public class CitizenController {
         this.citizenService = citizenService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createCitizen(HttpServletRequest request, @Valid @RequestBody CitizenDto reqCitizenDto){
         var citizenId = citizenService.create(reqCitizenDto);
 

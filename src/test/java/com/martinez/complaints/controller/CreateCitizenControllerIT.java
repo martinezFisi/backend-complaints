@@ -7,11 +7,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.net.URI;
 import java.util.Map;
@@ -21,15 +19,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-@Testcontainers
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-class CitizenControllerIT extends AbstractIntegrationTest {
+class CreateCitizenControllerIT extends AbstractIntegrationTest {
 
-    public static final String CONTEXT = "/complaints";
-    public static final String CITIZENS_URI = "/api/v1/citizens";
     public static final String DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED = "Key (email)=(citizen1990@gmail.com) already exists";
     public static final String DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED = "Key (document_number)=(7777777) already exists";
 
