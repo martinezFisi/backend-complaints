@@ -9,14 +9,11 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Testcontainers
 public abstract class AbstractIntegrationTest {
 
     public final String CONTEXT = "/complaints";
@@ -24,9 +21,12 @@ public abstract class AbstractIntegrationTest {
 
     @Autowired protected CitizenService citizenService;
 
-    @Container
     public static final JdbcDatabaseContainer postgreSQLContainer = new PostgreSQLContainer("postgres:9.4")
             .withInitScript("scripts/complaints-scripts-all-in-one.sql");
+
+    static {
+        postgreSQLContainer.start();
+    }
 
     @DynamicPropertySource
     static void postgresqlProperties(DynamicPropertyRegistry registry) {
