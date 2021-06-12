@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -72,8 +71,8 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
         var responseEntity = testRestTemplate.exchange(requestEntity, Map.class);
 
         assertThat("HttpStatus must be BAD_REQUEST(400)", responseEntity.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
-        assertTrue(responseEntity.getBody().get("errors").toString().contains(DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED),
-                "Errors array must contain the message: " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED);
+        assertTrue(responseEntity.getBody().get("error").toString().contains(DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED),
+                "Error message must be " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED);
     }
 
     @Order(3)
@@ -96,8 +95,8 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
         var responseEntity = testRestTemplate.exchange(requestEntity, Map.class);
 
         assertThat("HttpStatus must be BAD_REQUEST(400)", responseEntity.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
-        assertTrue(responseEntity.getBody().get("errors").toString().contains(DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED),
-                "Errors array must contain the message: " + DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED);
+        assertTrue(responseEntity.getBody().get("error").toString().contains(DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED),
+                "Error message must be " + DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED);
     }
 
     @Order(4)
@@ -118,10 +117,8 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
         var responseEntity = testRestTemplate.exchange(requestEntity, Map.class);
 
         assertThat("HttpStatus must be BAD_REQUEST(400)", responseEntity.getStatusCode(), equalTo(HttpStatus.BAD_REQUEST));
-        assertTrue(responseEntity.getBody().get("errors").toString().contains(DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED),
-                "Errors array must contain the message: " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED);
-        assertFalse(responseEntity.getBody().get("errors").toString().contains(DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED),
-                "Errors array must contain the message: " + DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED);
+        assertTrue(responseEntity.getBody().get("error").toString().contains(DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED),
+                "Error message must be " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED);
     }
 
     private static Stream<CitizenDto> reqCitizenDto() {

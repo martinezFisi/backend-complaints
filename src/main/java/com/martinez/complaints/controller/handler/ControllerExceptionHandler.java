@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(e.getMessage(), e);
 
         return ResponseEntity.badRequest()
-                             .body(Map.of("errors", List.of(e.getMessage())));
+                             .body(Map.of("error", e.getMessage()));
     }
 
     @ExceptionHandler({
@@ -58,7 +59,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(e.getMessage(), e);
 
         return ResponseEntity.badRequest()
-                             .body(Map.of("errors", List.of(e.getRootCause().getMessage())));
+                             .body(Map.of("error", e.getRootCause().getMessage()));
+    }
+
+    @ExceptionHandler({
+            EntityNotFoundException.class
+    })
+    protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
+        log.error(e.getMessage(), e);
+
+        return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
 }
