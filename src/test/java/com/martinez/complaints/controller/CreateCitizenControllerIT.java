@@ -2,7 +2,6 @@ package com.martinez.complaints.controller;
 
 import com.martinez.complaints.service.CitizenService;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -33,7 +32,6 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
     @Autowired private CitizenService citizenService;
     @Autowired private TestRestTemplate testRestTemplate;
 
-    @Order(1)
     @DisplayName("""
             Given a valid CitizenDto request \
             When invoke a POST Method on URI "/api/v1/citizens" \
@@ -59,7 +57,6 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
                                                                              .getLocation(), equalTo(expectedLocation));
     }
 
-    @Order(2)
     @DisplayName("""
             Given a CitizenDto request with an email already registered \
             When invoke a POST Method on URI "/api/v1/citizens" \
@@ -87,7 +84,6 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
                 "Error message must be " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED_1);
     }
 
-    @Order(3)
     @DisplayName("""
             Given a CitizenDto request with an documentNumber already registered \
             When invoke a POST Method on URI "/api/v1/citizens" \
@@ -115,7 +111,6 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
                 "Error message must be " + DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED_2);
     }
 
-    @Order(4)
     @DisplayName("""
             Given a CitizenDto request with email and documentNumber already registered \
             When invoke a POST Method on URI "/api/v1/citizens" \

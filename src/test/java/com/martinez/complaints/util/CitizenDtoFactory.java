@@ -52,6 +52,7 @@ public class CitizenDtoFactory {
             case FIRST_NAME -> citizenDto.setFirstName((String) value);
             case LAST_NAME -> citizenDto.setLastName((String) value);
             case AGE -> citizenDto.setAge((Integer) value);
+            default -> throw new UnsupportedOperationException("[{" + field + "}] is not a valid field");
         }
 
         return citizenDto;
@@ -80,6 +81,7 @@ public class CitizenDtoFactory {
                 case FIRST_NAME -> citizenDto.setFirstName((String) value);
                 case LAST_NAME -> citizenDto.setLastName((String) value);
                 case AGE -> citizenDto.setAge((Integer) value);
+                default -> throw new UnsupportedOperationException("[{" + key + "}] is not a valid field");
             }
         }
 

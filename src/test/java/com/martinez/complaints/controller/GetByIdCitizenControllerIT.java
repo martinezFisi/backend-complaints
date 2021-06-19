@@ -2,9 +2,8 @@ package com.martinez.complaints.controller;
 
 import com.martinez.complaints.dto.CitizenDto;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -13,8 +12,8 @@ import org.springframework.http.RequestEntity;
 
 import java.net.URI;
 import java.util.Map;
-import java.util.stream.Stream;
 
+import static com.martinez.complaints.util.CitizenDtoFactory.createCitizenDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -26,17 +25,16 @@ class GetByIdCitizenControllerIT extends AbstractIntegrationTest {
 
     @Autowired private TestRestTemplate testRestTemplate;
 
-    @Order(1)
     @DisplayName("""
             Given a valid Citizen already registered and {citizenId} is its id \
             When invoke a GET Method on URI "/api/v1/citizens/{citizenId}" \
             Then controller response with HttpStatus=OK(200) and the Citizen already registered
             """)
-    @MethodSource("expectedCitizenDto")
-    @ParameterizedTest
-    void testGetCitizenById(CitizenDto expectedCitizenDto) {
-        var citizenId = citizenService.create(expectedCitizenDto);
-        expectedCitizenDto.setId(citizenId);
+    @Test
+    void testGetCitizenById() {
+        var citizenDto = createCitizenDto();
+        var citizenId = citizenService.create(citizenDto);
+        citizenDto.setId(citizenId);
 
         var requestEntity = RequestEntity
                 .get(URI.create(CITIZENS_URI.concat("/" + citizenId)))
@@ -46,10 +44,9 @@ class GetByIdCitizenControllerIT extends AbstractIntegrationTest {
         var responseEntity = testRestTemplate.exchange(requestEntity, CitizenDto.class);
 
         assertThat("HttpStatus must be OK(200)", responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
-        assertThat("Citizen found must be equals to citizen registered", responseEntity.getBody(), equalTo(expectedCitizenDto));
+        assertThat("Citizen found must be equals to citizen registered", responseEntity.getBody(), equalTo(citizenDto));
     }
 
-    @Order(2)
     @DisplayName("""
             Given a citizenId not registered \
             When invoke a GET Method on URI "/api/v1/citizens/{citizenId}" \
@@ -70,15 +67,4 @@ class GetByIdCitizenControllerIT extends AbstractIntegrationTest {
                 responseEntity.getBody().get("error"), equalTo(ERROR_MESSAGE_CITIZEN_ID_NOT_FOUND));
     }
 
-    private static Stream<CitizenDto> expectedCitizenDto() {
-        return Stream.of(CitizenDto.builder()
-                                   .email("citizen1991@gmail.com")
-                                   .password("pass123")
-                                   .documentType("L")
-                                   .documentNumber("88888888")
-                                   .firstName("Angel")
-                                   .lastName("Perez")
-                                   .age(25)
-                                   .build());
-    }
 }
