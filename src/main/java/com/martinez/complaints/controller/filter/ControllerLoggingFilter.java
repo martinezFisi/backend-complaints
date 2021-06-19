@@ -24,8 +24,8 @@ public class ControllerLoggingFilter implements Filter {
         var req = (HttpServletRequest) servletRequest;
         var res = (HttpServletResponse) servletResponse;
 
-        log.info("STARTING REQUEST: method[{}], contentType[{}], URI[{}]",
-                req.getMethod(), req.getContentType(), req.getRequestURI());
+        log.info("STARTING REQUEST: method[{}], contentType[{}], URI[{}], RequestParams[{}]",
+                req.getMethod(), req.getContentType(), req.getRequestURI(), req.getQueryString());
 
         filterChain.doFilter(req, res);
 

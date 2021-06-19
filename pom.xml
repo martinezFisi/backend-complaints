@@ -19,6 +19,7 @@
 		<testcontainers.version>1.15.1</testcontainers.version>
 		<org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.20</org.projectlombok.version>
+		<net.andreinc.mockneat>0.4.7</net.andreinc.mockneat>
 	</properties>
 
 	<dependencies>
@@ -94,6 +95,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.andreinc</groupId>
+			<artifactId>mockneat</artifactId>
+			<version>${net.andreinc.mockneat}</version>
 		</dependency>
 	</dependencies>
 

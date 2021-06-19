@@ -61,7 +61,7 @@ public class DefaultCitizenService implements CitizenService {
         log.info("Filter citizens by [{}]", searchCriterias);
         var specificationBuilder = new SpecificationBuilder<Citizen>();
 
-        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)(\\w+)");
+        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)([A-Za-z.@_0-9]+)");
         var matcher = pattern.matcher(AND.concat(searchCriterias));
 
         while (matcher.find()) {
@@ -78,6 +78,10 @@ public class DefaultCitizenService implements CitizenService {
         var citizensDto = tryFindAllCitizens(citizenSpecification).stream()
                                                                   .map(citizenMapper::citizenToCitizenDto)
                                                                   .collect(toList());
+
+        if (citizensDto.isEmpty()) {
+            throw new EntityNotFoundException("Citizens searched by {" + searchCriterias + "} not found");
+        }
 
         log.info("Citizens found: {}", citizensDto);
         return citizensDto;
