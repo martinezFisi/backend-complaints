@@ -33,8 +33,8 @@ CREATE TABLE complaint
 (
     complaint_id   BIGINT      NOT NULL,
     address        VARCHAR(255) NOT NULL,
-    latitude       VARCHAR(255) NOT NULL,
-    longitude      VARCHAR(255) NOT NULL,
+    latitude       float8 NOT NULL,
+    longitude      float8 NOT NULL,
     complaint_type VARCHAR(255) NOT NULL,
     commentary     VARCHAR(255) NOT NULL,
     citizen_id     BIGINT      NOT NULL

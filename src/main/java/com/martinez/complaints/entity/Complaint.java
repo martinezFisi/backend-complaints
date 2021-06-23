@@ -20,8 +20,8 @@ public class Complaint {
     @SequenceGenerator(name = "COMPLAINT_SEQ", allocationSize = 5)
     private Long id;
     private String address;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
     @Column(name = "complaint_type") private String complaintType;
     private String commentary;
     @ManyToOne(fetch = FetchType.LAZY)

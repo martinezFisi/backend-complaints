@@ -1,10 +1,7 @@
 package com.martinez.complaints.controller;
 
-import com.martinez.complaints.service.CitizenService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 
@@ -28,9 +25,6 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
     public static final String DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED_1 = "Key (email)=(" + EMAIL_1 + ") already exists";
     public static final String DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED_2 = "Key (email)=(" + EMAIL_2 + ") already exists";
     public static final String DB_ERROR_MESSAGE_DOCUMENT_NUMBER_ALREADY_REGISTERED_2 = "Key (document_number)=(" + DOCUMENT_NUMBER_2 + ") already exists";
-
-    @Autowired private CitizenService citizenService;
-    @Autowired private TestRestTemplate testRestTemplate;
 
     @DisplayName("""
             Given a valid CitizenDto request \

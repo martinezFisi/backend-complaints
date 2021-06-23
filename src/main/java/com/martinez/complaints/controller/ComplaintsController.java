@@ -22,11 +22,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/complaints", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-public class ComplaintController {
+public class ComplaintsController {
 
     private final ComplaintService complaintService;
 
-    public ComplaintController(ComplaintService complaintService) {
+    public ComplaintsController(ComplaintService complaintService) {
         this.complaintService = complaintService;
     }
 

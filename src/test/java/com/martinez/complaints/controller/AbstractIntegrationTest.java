@@ -5,6 +5,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
@@ -18,8 +19,10 @@ public abstract class AbstractIntegrationTest {
 
     public final String CONTEXT = "/complaints";
     public final String CITIZENS_URI = "/api/v1/citizens";
+    public final String COMPLAINTS_URI = "/api/v1/complaints";
 
     @Autowired protected CitizenService citizenService;
+    @Autowired protected TestRestTemplate testRestTemplate;
 
     public static final JdbcDatabaseContainer postgreSQLContainer = new PostgreSQLContainer("postgres:9.4")
             .withInitScript("scripts/complaints-scripts-all-in-one.sql");
