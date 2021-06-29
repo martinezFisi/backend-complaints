@@ -76,6 +76,7 @@ public class DefaultComplaintService implements ComplaintService {
                                                .operation(matcher.group(3))
                                                .value(matcher.group(4))
                                                .build();
+            log.info("Search Criteria found: {}", searchCriteria);
             specificationBuilder.with(searchCriteria);
         }
 

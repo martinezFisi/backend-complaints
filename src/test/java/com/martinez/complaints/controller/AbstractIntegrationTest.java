@@ -1,6 +1,7 @@
 package com.martinez.complaints.controller;
 
 import com.martinez.complaints.service.CitizenService;
+import com.martinez.complaints.service.ComplaintService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public abstract class AbstractIntegrationTest {
     public final String COMPLAINTS_URI = "/api/v1/complaints";
 
     @Autowired protected CitizenService citizenService;
+    @Autowired protected ComplaintService complaintService;
     @Autowired protected TestRestTemplate testRestTemplate;
 
     public static final JdbcDatabaseContainer postgreSQLContainer = new PostgreSQLContainer("postgres:9.4")

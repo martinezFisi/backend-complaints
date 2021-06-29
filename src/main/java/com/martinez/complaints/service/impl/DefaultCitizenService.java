@@ -71,6 +71,7 @@ public class DefaultCitizenService implements CitizenService {
                                                .operation(matcher.group(3))
                                                .value(matcher.group(4))
                                                .build();
+            log.info("Search Criteria found: {}", searchCriteria);
             specificationBuilder.with(searchCriteria);
         }
 
@@ -91,7 +92,7 @@ public class DefaultCitizenService implements CitizenService {
         try {
             return citizenRepository.findAll(citizenSpecification);
         } catch (InvalidDataAccessApiUsageException e) {
-            throw new WrongSearchCriteriaException("Wrong search criteria found");
+            throw new WrongSearchCriteriaException("Wrong search criteria found", e);
         }
     }
 }

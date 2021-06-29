@@ -24,7 +24,7 @@ public class Complaint {
     private Double longitude;
     @Column(name = "complaint_type") private String complaintType;
     private String commentary;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;
 

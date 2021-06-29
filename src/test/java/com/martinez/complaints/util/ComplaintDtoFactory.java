@@ -59,8 +59,8 @@ public class ComplaintDtoFactory {
     public static ComplaintDto createComplaintDtoWithFields(Map<String, Object> fields) {
         var complaintDto = ComplaintDto.builder()
                                        .address(addresses().val())
-                                       .latitude(doubles().range(-90.0, 90.0).val())
-                                       .longitude(doubles().range(-180.0, 180.0).val())
+                                       .latitude(doubles().range(1.0, 90.0).val())
+                                       .longitude(doubles().range(1.0, 180.0).val())
                                        .complaintType(strings().size(1).val())
                                        .commentary(strings().size(200).val())
                                        .citizenId(longs().get())
