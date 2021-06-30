@@ -15,13 +15,14 @@ import java.util.List;
 import static com.martinez.complaints.util.CitizenDtoFactory.createCitizenDtoWithField;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 class FilterBySearchCriteriasCitizenControllerIT extends AbstractIntegrationTest {
 
     private static final String DOCUMENT_NUMBER = "33333333";
     private static final String EMAIL = "oreja.flores@gmail.com";
-    private static final String DOCUMENT_TYPE = "T";
+    private static final String DOCUMENT_TYPE = "DNI";
     private static final String FIRST_NAME = "Edison";
     private static final String LAST_NAME = "Flores";
     private static final int AGE = 200;//Value out of range from CitizenDtoFactory
@@ -99,8 +100,8 @@ class FilterBySearchCriteriasCitizenControllerIT extends AbstractIntegrationTest
         });
 
         assertThat("HttpStatus must be OK(200)", responseEntity.getStatusCode(), equalTo(HttpStatus.OK));
-        assertThat("Citizens found must be equals to citizens already registered",
-                responseEntity.getBody(), equalTo(citizensAlreadyRegistered));
+        assertTrue(responseEntity.getBody().containsAll(citizensAlreadyRegistered),
+                "Citizens found must be equals to citizens already registered");
     }
 
     @DisplayName("""

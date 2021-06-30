@@ -3,6 +3,7 @@ package com.martinez.complaints.util;
 import com.martinez.complaints.dto.CitizenDto;
 
 import java.util.Map;
+import java.util.Random;
 
 import static net.andreinc.mockneat.unit.text.Strings.strings;
 import static net.andreinc.mockneat.unit.types.Ints.ints;
@@ -25,7 +26,7 @@ public class CitizenDtoFactory {
         return CitizenDto.builder()
                          .email(emails().val())
                          .password(passwords().val())
-                         .documentType(strings().size(1).val())
+                         .documentType(DocumentType.values()[new Random().nextInt(DocumentType.values().length-1)])
                          .documentNumber(strings().size(8).val())
                          .firstName(names().first().val())
                          .lastName(names().last().val())
@@ -37,7 +38,7 @@ public class CitizenDtoFactory {
         var citizenDto = CitizenDto.builder()
                                    .email(emails().val())
                                    .password(passwords().val())
-                                   .documentType(strings().size(1).val())
+                                   .documentType(DocumentType.values()[new Random().nextInt(DocumentType.values().length-1)])
                                    .documentNumber(strings().size(8).val())
                                    .firstName(names().first().val())
                                    .lastName(names().last().val())
@@ -47,7 +48,7 @@ public class CitizenDtoFactory {
         switch (field.toLowerCase()) {
             case EMAIL -> citizenDto.setEmail((String) value);
             case PASSWORD -> citizenDto.setPassword((String) value);
-            case DOCUMENT_TYPE -> citizenDto.setDocumentType((String) value);
+            case DOCUMENT_TYPE -> citizenDto.setDocumentType(DocumentType.valueOf((String) value));
             case DOCUMENT_NUMBER -> citizenDto.setDocumentNumber((String) value);
             case FIRST_NAME -> citizenDto.setFirstName((String) value);
             case LAST_NAME -> citizenDto.setLastName((String) value);
@@ -62,7 +63,7 @@ public class CitizenDtoFactory {
         var citizenDto = CitizenDto.builder()
                                    .email(emails().val())
                                    .password(passwords().val())
-                                   .documentType(strings().size(1).val())
+                                   .documentType(DocumentType.values()[new Random().nextInt(DocumentType.values().length-1)])
                                    .documentNumber(strings().size(8).val())
                                    .firstName(names().first().val())
                                    .lastName(names().last().val())
@@ -76,7 +77,7 @@ public class CitizenDtoFactory {
             switch (key.toLowerCase()) {
                 case EMAIL -> citizenDto.setEmail((String) value);
                 case PASSWORD -> citizenDto.setPassword((String) value);
-                case DOCUMENT_TYPE -> citizenDto.setDocumentType((String) value);
+                case DOCUMENT_TYPE -> citizenDto.setDocumentType(DocumentType.valueOf((String) value));
                 case DOCUMENT_NUMBER -> citizenDto.setDocumentNumber((String) value);
                 case FIRST_NAME -> citizenDto.setFirstName((String) value);
                 case LAST_NAME -> citizenDto.setLastName((String) value);

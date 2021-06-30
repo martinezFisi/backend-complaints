@@ -2,6 +2,7 @@ package com.martinez.complaints.mapper;
 
 import com.martinez.complaints.dto.CitizenDto;
 import com.martinez.complaints.entity.Citizen;
+import com.martinez.complaints.util.DocumentType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +13,7 @@ public class CitizenMapper {
                 .id(citizen.getId())
                 .email(citizen.getEmail())
                 .password(citizen.getPassword())
-                .documentType(citizen.getDocumentType())
+                .documentType(DocumentType.valueOf(citizen.getDocumentType()))
                 .documentNumber(citizen.getDocumentNumber())
                 .firstName(citizen.getFirstName())
                 .lastName(citizen.getLastName())
@@ -25,7 +26,7 @@ public class CitizenMapper {
                 .id(citizenDto.getId())
                 .email(citizenDto.getEmail())
                 .password(citizenDto.getPassword())
-                .documentType(citizenDto.getDocumentType())
+                .documentType(citizenDto.getDocumentType().toString())
                 .documentNumber(citizenDto.getDocumentNumber())
                 .firstName(citizenDto.getFirstName())
                 .lastName(citizenDto.getLastName())
