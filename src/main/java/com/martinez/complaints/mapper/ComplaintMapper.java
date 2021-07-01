@@ -3,6 +3,7 @@ package com.martinez.complaints.mapper;
 import com.martinez.complaints.dto.ComplaintDto;
 import com.martinez.complaints.entity.Citizen;
 import com.martinez.complaints.entity.Complaint;
+import com.martinez.complaints.util.ComplaintType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +21,7 @@ public class ComplaintMapper {
                 .address(complaint.getAddress())
                 .latitude(complaint.getLatitude())
                 .longitude(complaint.getLongitude())
-                .complaintType(complaint.getComplaintType())
+                .complaintType(ComplaintType.valueOf(complaint.getComplaintType()))
                 .commentary(complaint.getCommentary())
                 .citizenDto(citizenMapper.citizenToCitizenDto(complaint.getCitizen()))
                 .build();
@@ -31,7 +32,7 @@ public class ComplaintMapper {
                 .address(complaintDto.getAddress())
                 .latitude(complaintDto.getLatitude())
                 .longitude(complaintDto.getLongitude())
-                .complaintType(complaintDto.getComplaintType())
+                .complaintType(complaintDto.getComplaintType().toString())
                 .commentary(complaintDto.getCommentary())
                 .citizen(Citizen.builder().id(complaintDto.getCitizenId()).build())
                 .build();
