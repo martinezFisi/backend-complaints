@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ComplaintService {
 
-    ComplaintDto create(ComplaintDto complaintDto);
+    long create(ComplaintDto complaintDto);
 
     ComplaintDto findById(Long id);
 

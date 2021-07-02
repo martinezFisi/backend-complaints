@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -24,6 +25,7 @@ public class Complaint {
     private Double longitude;
     @Column(name = "complaint_type") private String complaintType;
     private String commentary;
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "citizen_id")
     private Citizen citizen;

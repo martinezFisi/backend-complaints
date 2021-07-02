@@ -27,7 +27,7 @@ public class ComplaintDtoFactory {
                            .address(addresses().val())
                            .latitude(doubles().range(1.0, 90.0).val())
                            .longitude(doubles().range(1.0, 180.0).val())
-                           .complaintType(ComplaintType.values()[new Random().nextInt(DocumentType.values().length)])
+                           .complaintType(ComplaintType.values()[new Random().nextInt(ComplaintType.values().length)])
                            .commentary(strings().size(200).val())
                            .citizenId(longs().get())
                            .build();
@@ -38,7 +38,7 @@ public class ComplaintDtoFactory {
                                        .address(addresses().val())
                                        .latitude(doubles().range(1.0, 90.0).val())
                                        .longitude(doubles().range(1.0, 180.0).val())
-                                       .complaintType(ComplaintType.values()[new Random().nextInt(DocumentType.values().length)])
+                                       .complaintType(ComplaintType.values()[new Random().nextInt(ComplaintType.values().length)])
                                        .commentary(strings().size(200).val())
                                        .citizenId(longs().get())
                                        .build();

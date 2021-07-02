@@ -23,8 +23,6 @@ class GetByIdCitizenControllerIT extends AbstractIntegrationTest {
     public static final long CITIZEN_ID_NOT_REGISTERED = 999;
     public static final String ERROR_MESSAGE_CITIZEN_ID_NOT_FOUND = "Citizen with id [" + CITIZEN_ID_NOT_REGISTERED + "] not found";
 
-    @Autowired private TestRestTemplate testRestTemplate;
-
     @DisplayName("""
             Given a valid Citizen already registered and {citizenId} is its id \
             When invoke a GET Method on URI "/api/v1/citizens/{citizenId}" \

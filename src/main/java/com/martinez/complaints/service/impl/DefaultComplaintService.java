@@ -36,7 +36,7 @@ public class DefaultComplaintService implements ComplaintService {
     }
 
     @Override
-    public ComplaintDto create(ComplaintDto complaintDto) {
+    public long create(ComplaintDto complaintDto) {
         log.info(complaintDto.toString());
         var complaint = complaintMapper.complaintDtoToComplaint(complaintDto);
         var citizenReference = citizenRepository.getOne(complaint.getCitizen().getId());
@@ -45,7 +45,7 @@ public class DefaultComplaintService implements ComplaintService {
         complaint = complaintRepository.save(complaint);
         log.info(complaint.toString());
 
-        return complaintMapper.complaintToComplaintDto(complaint);
+        return complaint.getId();
     }
 
     @Override

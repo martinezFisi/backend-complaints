@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/complaints", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/complaints", produces = APPLICATION_JSON_VALUE)
 public class ComplaintsController {
 
     private final ComplaintService complaintService;
@@ -30,12 +30,12 @@ public class ComplaintsController {
         this.complaintService = complaintService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ComplaintDto> createCitizen(HttpServletRequest request, @Valid @RequestBody ComplaintDto complaintDto){
-        var complaint = complaintService.create(complaintDto);
+        var complaintId = complaintService.create(complaintDto);
 
-        var uri = URI.create(request.getRequestURI() + "/" + complaint.getId());
-        return ResponseEntity.created(uri).body(complaint);
+        var uri = URI.create(request.getRequestURI() + "/" + complaintId);
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping(value = "{complaintId}")
