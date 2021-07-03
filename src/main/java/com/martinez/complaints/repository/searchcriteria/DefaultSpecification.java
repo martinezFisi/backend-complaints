@@ -29,19 +29,19 @@ public class DefaultSpecification<T> implements Specification<T> {
         }
 
         if (operation.equalsIgnoreCase("<")) {
-            return criteriaBuilder.lessThan(root.get(key), (Integer) value);
+            return criteriaBuilder.lessThan(root.get(key), Double.valueOf((String)value));
         }
 
         if (operation.equalsIgnoreCase("<=")) {
-            return criteriaBuilder.lessThanOrEqualTo(root.get(key), (Integer) value);
+            return criteriaBuilder.lessThanOrEqualTo(root.get(key), Double.valueOf((String)value));
         }
 
         if (operation.equalsIgnoreCase(">")) {
-            return criteriaBuilder.greaterThan(root.get(key), (Integer) value);
+            return criteriaBuilder.greaterThan(root.get(key), Double.valueOf((String)value));
         }
 
         if (operation.equalsIgnoreCase(">=")) {
-            return criteriaBuilder.greaterThanOrEqualTo(root.get(key), (Integer) value);
+            return criteriaBuilder.greaterThanOrEqualTo(root.get(key), Double.valueOf((String)value));
         }
 
         return null;

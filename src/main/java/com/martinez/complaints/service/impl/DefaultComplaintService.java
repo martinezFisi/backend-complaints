@@ -66,7 +66,7 @@ public class DefaultComplaintService implements ComplaintService {
         log.info("Filter complaints by [{}]", searchCriterias);
         var specificationBuilder = new SpecificationBuilder<Complaint>();
 
-        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)(\\w+)");
+        var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)([A-Za-z.@_0-9]+)");
         var matcher = pattern.matcher(AND.concat(searchCriterias));
 
         while (matcher.find()) {

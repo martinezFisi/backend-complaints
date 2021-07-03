@@ -27,8 +27,6 @@ class FilterBySearchCriteriasCitizenControllerIT extends AbstractIntegrationTest
     private static final String LAST_NAME = "Flores";
     private static final int AGE = 200;//Value out of range from CitizenDtoFactory
 
-    @Autowired private TestRestTemplate testRestTemplate;
-
     @DisplayName("""
             Given a valid Citizen already registered with documentNumber=""" + DOCUMENT_NUMBER + """
             When invoke a GET Method on URI "/api/v1/citizens?searchCriterias=documentNumber=""" + DOCUMENT_NUMBER + """
