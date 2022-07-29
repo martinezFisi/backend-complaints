@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class SearchCriteria {
 
-    public final static String OR = "|";
-    public final static String AND = ",";
+    public static final String OR = "|";
+    public static final String AND = ",";
     private final String key;
     private final String operation;
     private final Object value;
