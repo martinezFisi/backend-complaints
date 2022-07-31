@@ -1,0 +1,20 @@
+version: "3"
+services:
+  db:
+    build:
+      context: ./
+      dockerfile: ./docker/db/Dockerfile
+    environment:
+      POSTGRES_PASSWORD: complaints_user
+    ports:
+      - "5432:5432"
+  backend:
+    build:
+      context: ./
+      dockerfile: ./docker/backend/Dockerfile
+    ports:
+      - "8282:8282"
+    depends_on:
+      - db
+
+
