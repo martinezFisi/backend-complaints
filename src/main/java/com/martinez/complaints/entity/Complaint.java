@@ -24,6 +24,9 @@ public class Complaint {
     private Double latitude;
     private Double longitude;
     @Column(name = "complaint_type") private String complaintType;
+    @Column(name = "postal_code") private String postalCode;
+    private String locality;
+    private String country;
     private String commentary;
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)

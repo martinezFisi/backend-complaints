@@ -39,7 +39,7 @@ public class DefaultComplaintService implements ComplaintService {
     public long create(ComplaintDto complaintDto) {
         log.info(complaintDto.toString());
         var complaint = complaintMapper.complaintDtoToComplaint(complaintDto);
-        var citizenReference = citizenRepository.getOne(complaint.getCitizen().getId());
+        var citizenReference = citizenRepository.getById(complaint.getCitizen().getId());
 
         complaint.setCitizen(citizenReference);
         complaint = complaintRepository.save(complaint);

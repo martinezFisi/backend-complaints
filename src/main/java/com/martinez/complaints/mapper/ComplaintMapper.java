@@ -22,6 +22,9 @@ public class ComplaintMapper {
                 .latitude(complaint.getLatitude())
                 .longitude(complaint.getLongitude())
                 .complaintType(ComplaintType.valueOf(complaint.getComplaintType()))
+                .postalCode(complaint.getPostalCode())
+                .locality(complaint.getLocality())
+                .country(complaint.getCountry())
                 .commentary(complaint.getCommentary())
                 .citizenDto(citizenMapper.citizenToCitizenDto(complaint.getCitizen()))
                 .build();
@@ -33,6 +36,9 @@ public class ComplaintMapper {
                 .latitude(complaintDto.getLatitude())
                 .longitude(complaintDto.getLongitude())
                 .complaintType(complaintDto.getComplaintType().toString())
+                .postalCode(complaintDto.getPostalCode())
+                .locality(complaintDto.getLocality())
+                .country(complaintDto.getCountry())
                 .commentary(complaintDto.getCommentary())
                 .citizen(Citizen.builder().id(complaintDto.getCitizenId()).build())
                 .build();

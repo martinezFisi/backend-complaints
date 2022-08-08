@@ -31,7 +31,7 @@ public class ComplaintsController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<ComplaintDto> createCitizen(HttpServletRequest request, @Valid @RequestBody ComplaintDto complaintDto){
+    public ResponseEntity<ComplaintDto> createComplaint(HttpServletRequest request, @Valid @RequestBody ComplaintDto complaintDto){
         var complaintId = complaintService.create(complaintDto);
 
         var uri = URI.create(request.getRequestURI() + "/" + complaintId);

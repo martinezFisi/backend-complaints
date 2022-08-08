@@ -17,6 +17,9 @@ public class ComplaintDto {
     @NotNull(message = "Please provide a latitude") private Double latitude;
     @NotNull(message = "Please provide a longitude") private Double longitude;
     @NotNull(message = "Please provide a complaintType") private ComplaintType complaintType;
+    @NotEmpty(message = "Please provide a postalCode") private String postalCode;
+    @NotEmpty(message = "Please provide a locality") private String locality;
+    @NotEmpty(message = "Please provide a country") private String country;
     @NotEmpty(message = "Please provide a commentary") private String commentary;
     @NotNull(message = "Please provide a citizenId") private Long citizenId;//used in request
     @JsonProperty(value = "citizen") private CitizenDto citizenDto;//used in response

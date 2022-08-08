@@ -35,6 +35,9 @@ CREATE TABLE complaint
     address        VARCHAR(255) NOT NULL,
     latitude       float8 NOT NULL,
     longitude      float8 NOT NULL,
+    postal_code    VARCHAR(255) NOT NULL,
+    locality       VARCHAR(255) NOT NULL,--city
+    country        VARCHAR(255) NOT NULL,
     complaint_type VARCHAR(255) NOT NULL,
     commentary     VARCHAR(255) NOT NULL,
     citizen_id     BIGINT      NOT NULL
