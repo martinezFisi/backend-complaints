@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.martinez.complaints.util.ComplaintType;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -21,6 +23,7 @@ public class ComplaintDto {
     @NotEmpty(message = "Please provide a locality") private String locality;
     @NotEmpty(message = "Please provide a country") private String country;
     @NotEmpty(message = "Please provide a commentary") private String commentary;
+    @EqualsAndHashCode.Exclude private String creationTime;
     @NotNull(message = "Please provide a citizenId") private Long citizenId;//used in request
     @JsonProperty(value = "citizen") private CitizenDto citizenDto;//used in response
 

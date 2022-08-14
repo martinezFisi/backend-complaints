@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -28,6 +29,7 @@ public class Complaint {
     private String locality;
     private String country;
     private String commentary;
+    private LocalDateTime creationTime;
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "citizen_id")

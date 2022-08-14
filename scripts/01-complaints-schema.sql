@@ -36,6 +36,7 @@ CREATE TABLE complaint
     country        VARCHAR(255) NOT NULL,
     complaint_type VARCHAR(255) NOT NULL,
     commentary     VARCHAR(255) NOT NULL,
+    creation_time   TIMESTAMP    NOT NULL,
     citizen_id     BIGINT      NOT NULL
 );
 

@@ -3,6 +3,7 @@ package com.martinez.complaints.util;
 import com.martinez.complaints.dto.CitizenDto;
 import com.martinez.complaints.dto.ComplaintDto;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Random;
 
@@ -42,17 +43,7 @@ public class ComplaintDtoFactory {
     }
 
     public static ComplaintDto createComplaintDtoWithField(String field, Object value) {
-        var complaintDto = ComplaintDto.builder()
-                                       .address(addresses().val())
-                                       .latitude(doubles().range(1.0, 90.0).val())
-                                       .longitude(doubles().range(1.0, 180.0).val())
-                                       .postalCode(strings().size(5).val())
-                                       .locality(cities().capitalsAmerica().val())
-                                       .country(countries().val())
-                                       .complaintType(ComplaintType.values()[new Random().nextInt(ComplaintType.values().length)])
-                                       .commentary(strings().size(200).val())
-                                       .citizenId(longs().get())
-                                       .build();
+        var complaintDto = createComplaintDto();
 
         switch (field.toLowerCase()) {
             case ADDRESS -> complaintDto.setAddress((String) value);
@@ -72,17 +63,7 @@ public class ComplaintDtoFactory {
     }
 
     public static ComplaintDto createComplaintDtoWithFields(Map<String, Object> fields) {
-        var complaintDto = ComplaintDto.builder()
-                                       .address(addresses().val())
-                                       .latitude(doubles().range(1.0, 90.0).val())
-                                       .longitude(doubles().range(1.0, 180.0).val())
-                                       .postalCode(strings().size(5).val())
-                                       .locality(cities().capitalsAmerica().val())
-                                       .country(countries().val())
-                                       .complaintType(ComplaintType.values()[new Random().nextInt(ComplaintType.values().length)])
-                                       .commentary(strings().size(200).val())
-                                       .citizenId(longs().get())
-                                       .build();
+        var complaintDto = createComplaintDto();
 
         for ( Map.Entry<String, Object> entry : fields.entrySet()) {
             var key = entry.getKey();

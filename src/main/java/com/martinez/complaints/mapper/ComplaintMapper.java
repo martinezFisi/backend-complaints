@@ -6,6 +6,9 @@ import com.martinez.complaints.entity.Complaint;
 import com.martinez.complaints.util.ComplaintType;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class ComplaintMapper {
 
@@ -26,6 +29,7 @@ public class ComplaintMapper {
                 .locality(complaint.getLocality())
                 .country(complaint.getCountry())
                 .commentary(complaint.getCommentary())
+                .creationTime(complaint.getCreationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm")))
                 .citizenDto(citizenMapper.citizenToCitizenDto(complaint.getCitizen()))
                 .build();
     }
@@ -40,6 +44,7 @@ public class ComplaintMapper {
                 .locality(complaintDto.getLocality())
                 .country(complaintDto.getCountry())
                 .commentary(complaintDto.getCommentary())
+                .creationTime(LocalDateTime.now())
                 .citizen(Citizen.builder().id(complaintDto.getCitizenId()).build())
                 .build();
     }
