@@ -4,7 +4,7 @@ public enum ComplaintType {
 
     ARMED_ROBBERY,
     ROBBERY_ON_THE_GO,
-    ROBBERY_WITH_VEHICLE,
+    ROBBERY_TO_VEHICLE,
     VANDALISM
 
 }

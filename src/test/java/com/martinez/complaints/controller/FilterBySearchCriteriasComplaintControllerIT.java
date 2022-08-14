@@ -32,7 +32,7 @@ class FilterBySearchCriteriasComplaintControllerIT extends AbstractIntegrationTe
     private static final String FILTER_ADDRESS_VALUE = "Avogadro";
     private static final String ALL_COMMENTARY_VALUE = "Robbery by 2 men";
     private static final String FILTER_COMMENTARY_VALUE = "2+men";// encoding the space with +
-    private static final String COMPLAINT_TYPE_VALUE = "ROBBERY_WITH_VEHICLE";
+    private static final String COMPLAINT_TYPE_VALUE = "ROBBERY_TO_VEHICLE";
     private static final double LATITUDE_VALUE = 25.112312;
     private static final double FILTER_LATITUDE_VALUE = 20.00;
     private static final double LONGITUDE_VALUE = 35.123122;
