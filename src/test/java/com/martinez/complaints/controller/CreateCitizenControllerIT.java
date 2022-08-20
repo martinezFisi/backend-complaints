@@ -1,15 +1,22 @@
 package com.martinez.complaints.controller;
 
+import com.martinez.complaints.dto.CitizenDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static com.martinez.complaints.util.CitizenDtoFactory.createCitizenDtoWithField;
 import static com.martinez.complaints.util.CitizenDtoFactory.createCitizenDtoWithFields;
+import static net.andreinc.mockneat.unit.user.Emails.emails;
+import static net.andreinc.mockneat.unit.user.Names.names;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +27,7 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
     public static final String DOCUMENT_NUMBER_1 = "11111111";
     public static final String DOCUMENT_NUMBER_2 = "11111112";
     public static final String DOCUMENT_NUMBER_3 = "11111113";
+    public static final String DOCUMENT_NUMBER_4 = "11111114";
     public static final String EMAIL_1 = "jefferson.farfan@gmail.com";
     public static final String EMAIL_2 = "paolo.guerrero@gmail.com";
     public static final String DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED_1 = "Key (email)=(" + EMAIL_1 + ") already exists";
@@ -31,17 +39,18 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
             When invoke a POST Method on URI "/api/v1/citizens" \
             Then controller response with HttpStatus=CREATED(201) and a Location Header with the CitizenId generated
             """)
-    @Test
-    void testSuccessCreateCitizen() {
+    @MethodSource("validCitizens")
+    @ParameterizedTest
+    void testSuccessCreateCitizen(CitizenDto citizenDto, String documentNumber) {
         var requestEntity = RequestEntity
                 .post(URI.create(CITIZENS_URI))
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .body(createCitizenDtoWithField("documentNumber", DOCUMENT_NUMBER_1));
+                .body(citizenDto);
 
         var responseEntity = testRestTemplate.exchange(requestEntity, Void.class);
 
-        var expectedCitizenId = citizenService.filterBySearchCriterias("documentNumber=" + DOCUMENT_NUMBER_1)
+        var expectedCitizenId = citizenService.filterBySearchCriterias("documentNumber=" + documentNumber)
                                               .get(0)
                                               .getId();
         var expectedLocation = URI.create(CONTEXT + CITIZENS_URI + "/" + expectedCitizenId);
@@ -132,4 +141,15 @@ class CreateCitizenControllerIT extends AbstractIntegrationTest {
                 "Error message must be " + DB_ERROR_MESSAGE_EMAIL_ALREADY_REGISTERED_2);
     }
 
+    static Stream<Arguments> validCitizens() {
+        return Stream.of(
+                Arguments.of(createCitizenDtoWithField("documentNumber", DOCUMENT_NUMBER_1), DOCUMENT_NUMBER_1),
+                Arguments.of(CitizenDto.builder()
+                                       .email(emails().val())
+                                       .firstName(names().first().val())
+                                       .lastName(names().last().val())
+                                       .documentNumber(DOCUMENT_NUMBER_4)
+                                       .build()
+                        , DOCUMENT_NUMBER_4));
+    }
 }

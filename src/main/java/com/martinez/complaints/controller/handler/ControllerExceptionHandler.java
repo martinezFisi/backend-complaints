@@ -73,4 +73,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(Map.of(ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({
+            Exception.class
+    })
+    protected ResponseEntity<Object> handleEverythingElseExceptions(Exception e) {
+        log.error(e.getMessage(), e);
+
+        return new ResponseEntity<>(Map.of(ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

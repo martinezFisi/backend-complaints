@@ -14,10 +14,10 @@ public class CitizenDto {
 
     private Long id;
     @NotEmpty(message = "Please provide a email") private String email;
-    @NotEmpty(message = "Please provide a password") private String password;
-    @NotNull(message = "Please provide a documentType") private DocumentType documentType;
-    @NotEmpty(message = "Please provide a documentNumber") private String documentNumber;
+    private String password;
+    private DocumentType documentType;
+    private String documentNumber;
     @NotEmpty(message = "Please provide a firstName") private String firstName;
     @NotEmpty(message = "Please provide a lastName") private String lastName;
-    @Min(message = "Please provide a age greater than or equal to 18", value = 18) private Integer age;
+    private Integer age;
 }
