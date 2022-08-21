@@ -11,4 +11,6 @@ public interface CitizenService {
     CitizenDto findById(Long id);
 
     List<CitizenDto> filterBySearchCriterias(String searchCriterias);
+
+    long getCitizenIdByEmail(String email);
 }

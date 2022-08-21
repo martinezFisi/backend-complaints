@@ -88,6 +88,12 @@ public class DefaultCitizenService implements CitizenService {
         return citizensDto;
     }
 
+    @Override
+    public long getCitizenIdByEmail(String email) {
+        var citizenOptional = citizenRepository.findCitizenByEmail(email);
+        return citizenOptional.map(Citizen::getId).orElse(0L);
+    }
+
     private List<Citizen> tryFindAllCitizens(Specification<Citizen> citizenSpecification) {
         try {
             return citizenRepository.findAll(citizenSpecification);
