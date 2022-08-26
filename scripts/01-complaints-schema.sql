@@ -12,8 +12,9 @@ ALTER TABLE parameter
 
 CREATE TABLE citizen
 (
-    citizen_id      BIGINT      NOT NULL,
+    citizen_id      BIGINT       NOT NULL,
     email           VARCHAR(255) NOT NULL UNIQUE,
+    phone_number    VARCHAR(255),
     password        VARCHAR(255),
     document_type   VARCHAR(255),
     document_number VARCHAR(255) UNIQUE,
@@ -56,7 +57,3 @@ ALTER SEQUENCE COMPLAINT_SEQ OWNER TO COMPLAINTS_USER;
 GRANT ALL PRIVILEGES ON SCHEMA complaints_schema to complaints_user;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA complaints_schema TO complaints_user;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA complaints_schema TO complaints_user;
-
---Data default
-insert into complaints_schema.citizen(citizen_id, email, password, document_type, document_number, first_name, last_name, age)
-VALUES (nextval('complaints_schema.citizen_seq'), 'antonymartinez12@gmail.com', '1234', 'DNI', '73253818', 'Antony', 'Martinez', 28);

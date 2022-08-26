@@ -14,6 +14,7 @@ public class CitizenDto {
 
     private Long id;
     @NotEmpty(message = "Please provide a email") private String email;
+    private String phoneNumber;
     private String password;
     private DocumentType documentType;
     private String documentNumber;

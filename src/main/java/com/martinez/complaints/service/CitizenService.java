@@ -8,6 +8,8 @@ public interface CitizenService {
 
     long create(CitizenDto citizenDto);
 
+    void update(Long id, CitizenDto citizenDto);
+
     CitizenDto findById(Long id);
 
     List<CitizenDto> filterBySearchCriterias(String searchCriterias);

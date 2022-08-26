@@ -44,6 +44,20 @@ public class DefaultCitizenService implements CitizenService {
     }
 
     @Override
+    public void update(Long id, CitizenDto citizenDto) {
+
+        var citizenRegistered = findById(id);
+        citizenRegistered.setDocumentType(citizenDto.getDocumentType());
+        citizenRegistered.setDocumentNumber(citizenDto.getDocumentNumber());
+        citizenRegistered.setPhoneNumber(citizenDto.getPhoneNumber());
+        citizenRegistered.setFirstName(citizenDto.getFirstName());
+        citizenRegistered.setLastName(citizenDto.getLastName());
+        citizenRegistered.setAge(citizenDto.getAge());
+
+        create(citizenRegistered);//update
+    }
+
+    @Override
     public CitizenDto findById(Long id) {
         log.info("Finding citizen by id [{}]...", id);
 

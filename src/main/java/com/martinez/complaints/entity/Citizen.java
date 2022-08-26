@@ -20,6 +20,7 @@ public class Citizen {
     @SequenceGenerator(name = "CITIZEN_SEQ", allocationSize = 5)
     private Long id;
     private String email;
+    @Column(name = "phone_number") private String phoneNumber;
     private String password;
     @Column(name = "document_type") private String documentType;
     @Column(name = "document_number") private String documentNumber;

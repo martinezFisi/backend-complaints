@@ -25,6 +25,7 @@ public class CitizenDtoFactory {
     public static CitizenDto createCitizenDto() {
         return CitizenDto.builder()
                          .email(emails().val())
+                         .phoneNumber(strings().size(11).val())
                          .password(passwords().val())
                          .documentType(DocumentType.values()[new Random().nextInt(DocumentType.values().length-1)])
                          .documentNumber(strings().size(8).val())
@@ -35,15 +36,7 @@ public class CitizenDtoFactory {
     }
 
     public static CitizenDto createCitizenDtoWithField(String field, Object value) {
-        var citizenDto = CitizenDto.builder()
-                                   .email(emails().val())
-                                   .password(passwords().val())
-                                   .documentType(DocumentType.values()[new Random().nextInt(DocumentType.values().length-1)])
-                                   .documentNumber(strings().size(8).val())
-                                   .firstName(names().first().val())
-                                   .lastName(names().last().val())
-                                   .age(ints().range(18, 100).val())
-                                   .build();
+        var citizenDto = createCitizenDto();
 
         switch (field.toLowerCase()) {
             case EMAIL -> citizenDto.setEmail((String) value);
@@ -60,15 +53,7 @@ public class CitizenDtoFactory {
     }
 
     public static CitizenDto createCitizenDtoWithFields(Map<String, Object> fields) {
-        var citizenDto = CitizenDto.builder()
-                                   .email(emails().val())
-                                   .password(passwords().val())
-                                   .documentType(DocumentType.values()[new Random().nextInt(DocumentType.values().length-1)])
-                                   .documentNumber(strings().size(8).val())
-                                   .firstName(names().first().val())
-                                   .lastName(names().last().val())
-                                   .age(ints().range(18, 100).val())
-                                   .build();
+        var citizenDto = createCitizenDto();
 
         for (Map.Entry<String, Object> entry : fields.entrySet()) {
             var key = entry.getKey();
