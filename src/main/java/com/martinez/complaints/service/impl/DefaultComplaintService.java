@@ -16,23 +16,31 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static com.martinez.complaints.repository.searchcriteria.SearchCriteria.AND;
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
 public class DefaultComplaintService implements ComplaintService {
 
-    ComplaintMapper complaintMapper;
-    CitizenRepository citizenRepository;
-    ComplaintRepository complaintRepository;
+    private final String complaintNotFoundMessage;
+    private final String wrongSearchCriteriaMessage;
 
-    public DefaultComplaintService(ComplaintMapper complaintMapper, CitizenRepository citizenRepository, ComplaintRepository complaintRepository) {
+    private final ComplaintMapper complaintMapper;
+    private final CitizenRepository citizenRepository;
+    private final ComplaintRepository complaintRepository;
+    private final ResourceBundle resourceBundle;
+
+    public DefaultComplaintService(ComplaintMapper complaintMapper, CitizenRepository citizenRepository, ComplaintRepository complaintRepository,
+                                   ResourceBundle resourceBundle) {
         this.complaintMapper = complaintMapper;
         this.citizenRepository = citizenRepository;
         this.complaintRepository = complaintRepository;
+        this.resourceBundle = resourceBundle;
+        complaintNotFoundMessage = resourceBundle.getString("exception.complaint.not.found");
+        wrongSearchCriteriaMessage = resourceBundle.getString("exception.wrong.search.criteria");
     }
 
     @Override
@@ -51,9 +59,9 @@ public class DefaultComplaintService implements ComplaintService {
     @Override
     public ComplaintDto findById(Long id) {
         log.info("Finding Complaint by id [{}]...", id);
-
         var complaint = complaintRepository.findById(id)
-                                       .orElseThrow(() -> new EntityNotFoundException("Complaint with id [" + id + "] not found"));
+                                       .orElseThrow(() -> new EntityNotFoundException(
+                                               complaintNotFoundMessage.replace("{}", String.valueOf(id))));
 
         var complaintDto = complaintMapper.complaintToComplaintDto(complaint);
         log.info("Complaint found: {}", complaintDto.toString());
@@ -64,7 +72,7 @@ public class DefaultComplaintService implements ComplaintService {
     @Override
     public List<ComplaintDto> filterBySearchCriterias(String searchCriterias) {
         log.info("Filter complaints by [{}]", searchCriterias);
-        var specificationBuilder = new SpecificationBuilder<Complaint>();
+        var specificationBuilder = new SpecificationBuilder<Complaint>(resourceBundle);
 
         var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)([A-Za-z.@_0-9]+)");
         var matcher = pattern.matcher(AND.concat(searchCriterias));
@@ -83,7 +91,7 @@ public class DefaultComplaintService implements ComplaintService {
         var complaintSpecification = specificationBuilder.build();
         var complaintDtos = tryFindAllComplaints(complaintSpecification).stream()
                                                                         .map(complaintMapper::complaintToComplaintDto)
-                                                                        .collect(toList());
+                                                                        .toList();
 
         log.info("Complaints found: {}", complaintDtos);
         return complaintDtos;
@@ -93,7 +101,7 @@ public class DefaultComplaintService implements ComplaintService {
         try {
             return complaintRepository.findAll(complaintSpecification);
         } catch (InvalidDataAccessApiUsageException e) {
-            throw new WrongSearchCriteriaException("Wrong search criteria found");
+            throw new WrongSearchCriteriaException(wrongSearchCriteriaMessage);
         }
     }
 }

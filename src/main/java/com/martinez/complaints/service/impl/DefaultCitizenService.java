@@ -5,8 +5,8 @@ import com.martinez.complaints.entity.Citizen;
 import com.martinez.complaints.exception.WrongSearchCriteriaException;
 import com.martinez.complaints.mapper.CitizenMapper;
 import com.martinez.complaints.repository.CitizenRepository;
-import com.martinez.complaints.repository.searchcriteria.SpecificationBuilder;
 import com.martinez.complaints.repository.searchcriteria.SearchCriteria;
+import com.martinez.complaints.repository.searchcriteria.SpecificationBuilder;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -15,21 +15,31 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static com.martinez.complaints.repository.searchcriteria.SearchCriteria.AND;
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
 public class DefaultCitizenService implements CitizenService {
 
+    private final String citizenNotFoundMessage;
+    private final String citizenNotFoundBySearchCriteriasMessage;
+    private final String wrongSearchCriteriaMessage;
+
     private final CitizenRepository citizenRepository;
     private final CitizenMapper citizenMapper;
+    private final ResourceBundle resourceBundle;
 
-    public DefaultCitizenService(CitizenRepository citizenRepository, CitizenMapper citizenMapper) {
+    public DefaultCitizenService(CitizenRepository citizenRepository, CitizenMapper citizenMapper,
+                                 ResourceBundle resourceBundle) {
         this.citizenRepository = citizenRepository;
         this.citizenMapper = citizenMapper;
+        this.resourceBundle = resourceBundle;
+        citizenNotFoundMessage = resourceBundle.getString("exception.citizen.not.found");
+        citizenNotFoundBySearchCriteriasMessage = resourceBundle.getString("exception.citizens.not.found.by.search.criterias");
+        wrongSearchCriteriaMessage = resourceBundle.getString("exception.wrong.search.criteria");
     }
 
     @Override
@@ -62,7 +72,8 @@ public class DefaultCitizenService implements CitizenService {
         log.info("Finding citizen by id [{}]...", id);
 
         var citizen = citizenRepository.findById(id)
-                                       .orElseThrow(() -> new EntityNotFoundException("Citizen with id [" + id + "] not found"));
+                                       .orElseThrow(() -> new EntityNotFoundException(
+                                               citizenNotFoundMessage.replace("{}", String.valueOf(id))));
 
         var citizenDto = citizenMapper.citizenToCitizenDto(citizen);
         log.info("Citizen found: {}", citizenDto.toString());
@@ -73,7 +84,7 @@ public class DefaultCitizenService implements CitizenService {
     @Override
     public List<CitizenDto> filterBySearchCriterias(String searchCriterias) {
         log.info("Filter citizens by [{}]", searchCriterias);
-        var specificationBuilder = new SpecificationBuilder<Citizen>();
+        var specificationBuilder = new SpecificationBuilder<Citizen>(resourceBundle);
 
         var pattern = Pattern.compile("(,|\\|)(\\w+)(=|<|>|<=|>=|:)([A-Za-z.@_0-9]+)");
         var matcher = pattern.matcher(AND.concat(searchCriterias));
@@ -92,10 +103,10 @@ public class DefaultCitizenService implements CitizenService {
         var citizenSpecification = specificationBuilder.build();
         var citizensDto = tryFindAllCitizens(citizenSpecification).stream()
                                                                   .map(citizenMapper::citizenToCitizenDto)
-                                                                  .collect(toList());
+                                                                  .toList();
 
         if (citizensDto.isEmpty()) {
-            throw new EntityNotFoundException("Citizens searched by {" + searchCriterias + "} not found");
+            throw new EntityNotFoundException(citizenNotFoundBySearchCriteriasMessage.replace("{}", searchCriterias));
         }
 
         log.info("Citizens found: {}", citizensDto);
@@ -112,7 +123,7 @@ public class DefaultCitizenService implements CitizenService {
         try {
             return citizenRepository.findAll(citizenSpecification);
         } catch (InvalidDataAccessApiUsageException e) {
-            throw new WrongSearchCriteriaException("Wrong search criteria found", e);
+            throw new WrongSearchCriteriaException(wrongSearchCriteriaMessage, e);
         }
     }
 }

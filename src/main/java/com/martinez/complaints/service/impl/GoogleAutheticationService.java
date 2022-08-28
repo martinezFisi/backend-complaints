@@ -7,21 +7,26 @@ import com.martinez.complaints.exception.GoogleSignInException;
 import com.martinez.complaints.service.AuthenticationService;
 import com.martinez.complaints.service.CitizenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ResourceBundle;
 
 @Slf4j
 @Service
 public class GoogleAutheticationService implements AuthenticationService {
 
+    private final String googleAuthenticationMessage;
+
     private final CitizenService citizenService;
     private final GoogleIdTokenVerifier googleIdTokenVerifier;
 
-    public GoogleAutheticationService(CitizenService citizenService, GoogleIdTokenVerifier googleIdTokenVerifier) {
+    public GoogleAutheticationService(CitizenService citizenService, GoogleIdTokenVerifier googleIdTokenVerifier, ResourceBundle resourceBundle) {
         this.citizenService = citizenService;
         this.googleIdTokenVerifier = googleIdTokenVerifier;
+        this.googleAuthenticationMessage = resourceBundle.getString("exception.google.authentication");
     }
 
     @Override
@@ -47,11 +52,11 @@ public class GoogleAutheticationService implements AuthenticationService {
         try {
             var googleIdToken = googleIdTokenVerifier.verify(jwt);
             if (googleIdToken == null)
-                throw new GoogleSignInException("Error has ocurred during google authentication");
+                throw new GoogleSignInException(googleAuthenticationMessage);
 
             return googleIdToken;
         } catch (GeneralSecurityException | IOException e) {
-            throw new GoogleSignInException("Error has ocurred during google authentication", e);
+            throw new GoogleSignInException(googleAuthenticationMessage, e);
         }
     }
 

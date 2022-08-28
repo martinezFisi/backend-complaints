@@ -6,9 +6,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.annotation.SessionScope;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 
 @Configuration
@@ -18,7 +16,7 @@ public class GoogleAuthenticationConfig {
     private String clientId;
 
     @Bean
-    public GoogleIdTokenVerifier googleIdTokenVerifier(HttpServletRequest httpServletRequest) {
+    public GoogleIdTokenVerifier googleIdTokenVerifier() {
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 .setAudience(Collections.singletonList(clientId))
                 .build();
