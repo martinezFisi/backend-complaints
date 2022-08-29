@@ -29,7 +29,7 @@ public class ComplaintMapper {
                 .locality(complaint.getLocality())
                 .country(complaint.getCountry())
                 .commentary(complaint.getCommentary())
-                .creationTime(complaint.getCreationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm")))
+                .creationTime(complaint.getCreationTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a")))
                 .citizenDto(citizenMapper.citizenToCitizenDto(complaint.getCitizen()))
                 .build();
     }
