@@ -14,8 +14,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 @Slf4j
 @PropertySources(value = {
@@ -28,6 +30,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Value("#{environment['app.language']}")
     private String language;
+
+    static {
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Lima"));
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
